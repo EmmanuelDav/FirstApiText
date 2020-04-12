@@ -1,6 +1,6 @@
 package com.rad5.fechjsonfromapi;
 
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
@@ -11,14 +11,22 @@ import java.util.Scanner;
 
 public class apiUrl {
 
-    public static final String baseUrl = "https://www.googleapis.com/books/v1/volumes/";
+    private static final String baseUrl = "https://www.googleapis.com/books/v1/volumes/";
+    private static final String QUERY_PERIMETER_KEY = "q";
+    private static final String KEY  = "Key";
+    private static final String API_KEY= "AIzaSyAYzkoKCej5X-r0sJAMvK_6esXBeMAFheg";
+
 
     public static URL buildUrl(String title) {
-        String url = baseUrl + "?q=" + title;
-        URL uri = null;
-        try {
-            uri = new URL(url);
 
+        URL uri = null;
+        Uri  jsonUri = Uri.parse(baseUrl)
+                .buildUpon()
+                .appendQueryParameter(QUERY_PERIMETER_KEY,title)
+                .appendQueryParameter(KEY, API_KEY)
+                .build();
+        try {
+            uri = new URL(jsonUri.toString());
         } catch (Exception e) {
             return uri;
 

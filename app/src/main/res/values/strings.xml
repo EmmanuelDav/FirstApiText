@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">fech json from api</string>
+    <string name="internet_error">No internet Connection</string>
 </resources>

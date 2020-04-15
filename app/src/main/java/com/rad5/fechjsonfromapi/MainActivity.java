@@ -5,6 +5,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,15 +41,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             Log.d("Error E = ", e.toString());
         }
 
-        LinearLayoutManager BookManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager BookManager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(BookManager);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu,menu);
-        final MenuItem  searchMenu =  menu.findItem(R.id.search_view);
-       //  SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        final MenuItem searchMenu = menu.findItem(R.id.search_view);
+        //  SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
         final SearchView searchView = (SearchView) searchMenu.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
@@ -56,13 +59,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        try{
+        try {
             URL bookUrl = apiUrl.buildUrl(s);
             new BookQueryClass().execute(bookUrl);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-       return false;
+        return false;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }
             return result;
         }
-    
+
         @Override
         protected void onPostExecute(String s) {
 
@@ -96,13 +99,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 error.setVisibility(View.INVISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
 
-            }else {
+            } else {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 error.setVisibility(View.VISIBLE);
             }
-            ArrayList<Book>books = apiUrl.getBooksFromJson(s);
-            String resultString = "";
-
+            ArrayList<Book> books = apiUrl.getBooksFromJson(s);
             BookAdapter adapter = new BookAdapter(books);
             mRecyclerView.setAdapter(adapter);
 

@@ -1,69 +1,95 @@
 package com.rad5.fechjsonfromapi;
 
-public class Book {
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+
+public class Book implements Parcelable {
     public String id;
     public String title;
     public String subTitle;
-    public String[] authors;
+    public String authors;
     public String publisher;
     public String publishedDate;
+    public String description;
 
-    public Book(String id, String title, String subTitle, String[] authors, String publisher, String publishedDate) {
+    public Book(String id, String title, String subTitle, String[] authors, String publisher, String publishedDate,String description) {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
-        this.authors = authors;
+        this.authors = TextUtils.join(" ",authors);
         this.publisher = publisher;
         this.publishedDate = publishedDate;
+        this.description = description;
     }
-
-    public Book() {}
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getSubTitle() {
         return subTitle;
     }
 
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
-    public String[] getAuthors() {
+    public String getAuthors() {
         return authors;
-    }
-
-    public void setAuthors(String[] authors) {
-        this.authors = authors;
     }
 
     public String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
     public String getPublishedDate() {
         return publishedDate;
     }
 
-    public void setPublishedDate(String publishedDate) {
-        this.publishedDate = publishedDate;
+    public String getDescription() {
+        return description;
+    }
+
+    public static Creator<Book> getCREATOR() {
+        return CREATOR;
+    }
+
+    protected Book(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        subTitle = in.readString();
+        authors = in.readString();
+        publisher = in.readString();
+        publishedDate = in.readString();
+        description = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(title);
+        parcel.writeString(subTitle);
+        parcel.writeString(authors);
+        parcel.writeString(publisher);
+        parcel.writeString(publishedDate);
+        parcel.writeString(description);
     }
 }

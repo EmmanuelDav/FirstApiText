@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="Book"
+            type="com.rad5.fechjsonfromapi.Book" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tvTittle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@{Book.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{Book.subTitle}"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvTittle"
+            app:layout_constraintStart_toStartOf="@+id/tvTittle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTittle" />
+
+        <TextView
+            android:id="@+id/tvAuthors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="@{Book.authors}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageCover"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle" />
+
+        <TextView
+            android:id="@+id/tvPublishedDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{Book.publishedDate}"
+            app:layout_constraintEnd_toEndOf="@+id/tvPublisher"
+            app:layout_constraintStart_toStartOf="@+id/tvPublisher"
+            app:layout_constraintTop_toBottomOf="@+id/tvPublisher" />
+
+        <TextView
+            android:id="@+id/tvPublisher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{Book.publisher}"
+            app:layout_constraintEnd_toEndOf="@+id/tvAuthors"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tvAuthors"
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthors" />
+
+        <ImageView
+            android:id="@+id/imageCover"
+            android:layout_width="119dp"
+            android:layout_height="143dp"
+            app:layout_constraintStart_toStartOf="@+id/tvSubtitle"
+            app:layout_constraintTop_toTopOf="@+id/tvAuthors"
+            app:srcCompat="@drawable/book_open" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{Book.description}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageCover"
+            app:layout_constraintVertical_bias="0.103" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

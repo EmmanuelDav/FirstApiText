@@ -1,6 +1,7 @@
 package com.rad5.fechjsonfromapi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
-    ArrayList<Book>mBooks;
+    ArrayList<Book> mBooks;
 
 
     public BookAdapter(ArrayList<Book> books) {
@@ -25,7 +26,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     @Override
     public BookAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.book_list,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.book_list, parent, false);
         return new BookAdapter.ViewHolder(view);
 
     }
@@ -42,8 +43,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         return mBooks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView Publishers,Author,PublishersDate,title;
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView Publishers, Author, PublishersDate, title;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,25 +53,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             Author = itemView.findViewById(R.id.tv_authorsize);
             PublishersDate = itemView.findViewById(R.id.tv_publishDate);
             title = itemView.findViewById(R.id.tv_title);
+            itemView.setOnClickListener(this);
+
 
         }
 
-        public void bind (Book book) {
+        public void bind(Book book) {
             title.setText(book.getTitle());
-            String authors="";
-            int i=0;
-            for (String author:book.getAuthors()) {
-                authors+=author;
-                i++;
-                if(i<book.getAuthors().length) {
-                    authors+=", ";
-                }
-            }
-            Author.setText(authors);
+            Author.setText(book.getAuthors());
             PublishersDate.setText(book.getPublishedDate());
             Publishers.setText(book.getPublisher());
 
         }
 
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Book selectedBook = mBooks.get(position);
+            Intent intent = new Intent(view.getContext(), BookDetails.class);
+            intent.putExtra("Book", selectedBook);
+            view.getContext().startActivity(intent);
+        }
     }
 }

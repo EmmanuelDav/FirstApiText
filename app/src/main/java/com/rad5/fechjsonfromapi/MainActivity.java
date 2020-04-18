@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mRecyclerView = findViewById(R.id.RecyclerView);
 
         try {
-            URL bookUrl = apiUrl.buildUrl("mobile");
+            URL bookUrl = apiUrl.buildUrl("love");
             new BookQueryClass().execute(bookUrl);
         } catch (Exception e) {
             Log.d("Error E = ", e.toString());

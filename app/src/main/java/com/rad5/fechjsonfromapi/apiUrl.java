@@ -18,16 +18,16 @@ public class apiUrl {
 
     private static final String baseUrl = "https://www.googleapis.com/books/v1/volumes/";
     private static final String QUERY_PERIMETER_KEY = "q";
-    private static final String KEY  = "Key";
-    private static final String API_KEY= "AIzaSyAYzkoKCej5X-r0sJAMvK_6esXBeMAFheg";
+    private static final String KEY = "Key";
+    private static final String API_KEY = "AIzaSyAYzkoKCej5X-r0sJAMvK_6esXBeMAFheg";
 
 
     public static URL buildUrl(String title) {
 
         URL uri = null;
-        Uri  jsonUri = Uri.parse(baseUrl)
+        Uri jsonUri = Uri.parse(baseUrl)
                 .buildUpon()
-                .appendQueryParameter(QUERY_PERIMETER_KEY,title)
+                .appendQueryParameter(QUERY_PERIMETER_KEY, title)
                 .appendQueryParameter(KEY, API_KEY)
                 .build();
         try {
@@ -48,17 +48,15 @@ public class apiUrl {
             scanner.useDelimiter("\\A");
 
             boolean hasNext = scanner.hasNext();
-            if (hasNext){
+            if (hasNext) {
                 return scanner.next();
-            }
-            else {
+            } else {
                 return null;
             }
-        }catch (Exception e){
-            Log.d(" Error =  ",e.toString());
+        } catch (Exception e) {
+            Log.d(" Error =  ", e.toString());
             return null;
-        }
-        finally {
+        } finally {
             connection.disconnect();
         }
 
@@ -71,10 +69,12 @@ public class apiUrl {
         final String SUBTITLE = "subtitle";
         final String AUTHORS = "authors";
         final String PUBLISHER = "publisher";
-        final String PUBLISHED_DATE="publishedDate";
+        final String PUBLISHED_DATE = "publishedDate";
         final String ITEMS = "items";
         final String VOLUMEINFO = "volumeInfo";
         final String DESCRIPTION = "description";
+        final String IMAGELINKS = "imageLinks";
+        final String THUMBNAIL = "thumbnail";
 
         ArrayList<Book> books = new ArrayList<Book>();
         try {
@@ -82,30 +82,31 @@ public class apiUrl {
             JSONArray arrayBooks = jsonBooks.getJSONArray(ITEMS);
             int numberOfBooks = arrayBooks.length();
 
-            for (int i =0; i<numberOfBooks;i++){
+            for (int i = 0; i < numberOfBooks; i++) {
                 JSONObject bookJSON = arrayBooks.getJSONObject(i);
                 JSONObject volumeInfoJSON = bookJSON.getJSONObject(VOLUMEINFO);
+                JSONObject imageLink = volumeInfoJSON.getJSONObject(IMAGELINKS);
                 int authorNum = volumeInfoJSON.getJSONArray(AUTHORS).length();
                 String[] authors = new String[authorNum];
-                for (int j=0; j<authorNum;j++) {
+                for (int j = 0; j < authorNum; j++) {
                     authors[j] = volumeInfoJSON.getJSONArray(AUTHORS).get(j).toString();
                 }
                 Book book = new Book(
                         bookJSON.getString(ID),
                         volumeInfoJSON.getString(TITLE),
-                        (volumeInfoJSON.isNull(SUBTITLE)?"":volumeInfoJSON.getString(SUBTITLE)),
+                        (volumeInfoJSON.isNull(SUBTITLE) ? "" : volumeInfoJSON.getString(SUBTITLE)),
                         authors,
                         volumeInfoJSON.getString(PUBLISHER),
                         volumeInfoJSON.getString(PUBLISHED_DATE),
-                        volumeInfoJSON.getString(DESCRIPTION));
+                        volumeInfoJSON.getString(DESCRIPTION),
+                        imageLink.getString(THUMBNAIL));
+
                 books.add(book);
 
             }
-        }
-        catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
         return books;

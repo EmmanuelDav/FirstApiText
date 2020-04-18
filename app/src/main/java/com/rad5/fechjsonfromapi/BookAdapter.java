@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
@@ -35,6 +37,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull BookAdapter.ViewHolder holder, int position) {
         Book mbook = mBooks.get(position);
         holder.bind(mbook);
+
 
     }
 
